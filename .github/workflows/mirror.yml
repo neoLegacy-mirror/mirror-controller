@@ -2,7 +2,7 @@ name: Mirror Codeberg Repo
 
 on:
   schedule:
-    - cron: "*/24 * * * *"
+    - cron: "*/20 * * * *"
   workflow_dispatch:
 
 jobs:
@@ -22,37 +22,15 @@ jobs:
       - name: Clone if not exists
         run: |
           if [ ! -d "repo.git" ]; then
-            git clone --mirror https://codeberg.org/piebot/LegacyEvolved.git repo.git
+            git clone --mirror https://git.neolegacy.dev/neoStudiosLCE/neoLegacy.git repo.git
           fi
 
       - name: Update mirror (fetch all branches & tags)
         run: |
           cd repo.git
-          git remote set-url origin https://codeberg.org/piebot/LegacyEvolved.git
+          git remote set-url origin https://git.neolegacy.dev/neoStudiosLCE/neoLegacy.git
           git fetch -p origin "+refs/heads/*:refs/heads/*" "+refs/tags/*:refs/tags/*"
       
-      - name: Inject GitHub workflows
-        run: |
-          git clone repo.git workdir
-          cd workdir
-      
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      
-          git clone --depth=1 https://github.com/smartcmd/MinecraftConsoles temp_repo
-      
-          rm -rf .github
-          cp -r temp_repo/.github .
-      
-          rm -rf temp_repo
-      
-          git add .github
-          git diff --cached --quiet || \
-          GIT_COMMITTER_DATE="2000-01-01T00:00:00Z" git commit --date="2000-01-01T00:00:00Z" -m "Inject GitHub workflows"
-
-          git push origin --all
-          git push origin --tags
-
       - name: Configure git for large pushes
         run: |
           cd repo.git
