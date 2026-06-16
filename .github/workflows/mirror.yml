@@ -1,4 +1,4 @@
-name: Mirror Codeberg Repo
+name: Mirror neoLegacy Repo
 
 on:
   schedule:
@@ -43,7 +43,7 @@ jobs:
         run: |
           cd repo.git
           for i in 1 2 3; do
-            git push --force --all https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/LegacyEvolved-mirror/LegacyEvolved.git && break
+            git push --force --all https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/neoLegacy-mirror/neoLegacy.git && break
             echo "Branches push failed, retrying in 10s..."
             sleep 10
           done
@@ -52,7 +52,7 @@ jobs:
         run: |
           cd repo.git
           for i in 1 2 3; do
-            git push --force --tags https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/LegacyEvolved-mirror/LegacyEvolved.git && break
+            git push --force --tags https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/neoLegacy-mirror/neoLegacy.git && break
             echo "Tags push failed, retrying in 10s..."
             sleep 10
           done
